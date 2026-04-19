@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(unzip -l /Users/salonimehta/Downloads/Saloni_Mehta_Product_Designer.zip)",
+      "Bash(unzip -o /Users/salonimehta/Downloads/Saloni_Mehta_Product_Designer.zip -d /Users/salonimehta/Downloads/Saloni_Mehta_Product_Designer/)",
+      "Bash(mkdir -p /Users/salonimehta/Downloads/portfolio-local/src/app/components/ui)",
+      "Bash(mkdir -p /Users/salonimehta/Downloads/portfolio-local/src/app/components/figma)",
+      "Bash(mkdir -p /Users/salonimehta/Downloads/portfolio-local/src/app)",
+      "Bash(mkdir -p /Users/salonimehta/Downloads/portfolio-local/src/imports)",
+      "Bash(mkdir -p /Users/salonimehta/Downloads/portfolio-local/src/styles)",
+      "Bash(npm install:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5174)",
+      "Bash(cp /Users/salonimehta/Downloads/Saloni_Mehta_Product_Designer/src/assets/*.png /Users/salonimehta/Downloads/portfolio-local/src/assets/)",
+      "Bash(ls /Users/salonimehta/Downloads/portfolio-local/src/assets/*.png)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
