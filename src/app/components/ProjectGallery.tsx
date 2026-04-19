@@ -9,7 +9,7 @@ import nykaaThumbnail from 'figma:asset/3e5d04adff641e6d2cc881dde4324f4886ef7aa7
 
 const projects = [
   {
-    title: 'CoverSure - Contextual Homepage',
+    title: 'How homepage clarity fixed a Day 1–5 uninstall problem',
     company: 'CoverSure',
     year: '2025',
     category: 'Product Design',
@@ -123,7 +123,7 @@ const projects = [
     isRestructured: true
   },
   {
-    title: 'Superstore by Nykaa — Pricing Clarity That Builds Retailer Confidence',
+    title: 'When price visibility doesn\'t equal price confidence',
     company: 'Nykaa',
     year: '2023-2024',
     category: 'Product Design',
@@ -275,7 +275,7 @@ const projects = [
     isLocked: false
   },
   {
-    title: 'Usability as a System: My Framework for Turning Insight into Product Decisions',
+    title: 'The framework that turned user research into org-wide product decisions',
     company: 'Framework',
     year: '2024',
     category: 'Usability Analysis',
