@@ -156,7 +156,7 @@ export function Hero() {
                 color: '#1a1a1a'
               }}
             >
-              I believe the problem you see is rarely the problem worth solving.
+              I believe the obvious problem is rarely the actual problem.
             </motion.h1>
 
             {/* Subtitle */}
