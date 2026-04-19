@@ -275,7 +275,7 @@ export function Hero() {
 
               {/* Resume */}
               <a
-                href="https://drive.google.com/file/d/1Wpn6nLEb5FWE9uGP-du6iz1RUzu2ZC8R/view?usp=sharing"
+                href="/Saloni_Mehta_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 transition-colors cursor-pointer font-bold"
