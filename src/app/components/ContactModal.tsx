@@ -106,7 +106,28 @@ export function ContactModal() {
 
     setStatus('sending');
     try {
-      await fetch(ENQUIRY_ENDPOINT, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(data) });
+      // fetch() to Apps Script gets dropped cross-origin; a beacon (or a hidden form post) arrives reliably
+      const sent = navigator.sendBeacon?.(ENQUIRY_ENDPOINT, new URLSearchParams(data));
+      if (!sent) {
+        const frame = document.createElement('iframe');
+        frame.name = 'enquiry-target';
+        frame.style.display = 'none';
+        document.body.appendChild(frame);
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = ENQUIRY_ENDPOINT;
+        form.target = 'enquiry-target';
+        Object.entries(data).forEach(([k, v]) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = k;
+          input.value = String(v);
+          form.appendChild(input);
+        });
+        document.body.appendChild(form);
+        form.submit();
+        setTimeout(() => { form.remove(); frame.remove(); }, 10000);
+      }
       setStatus('sent');
     } catch {
       setStatus('error');
