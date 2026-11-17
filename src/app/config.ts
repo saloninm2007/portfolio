@@ -3,3 +3,6 @@
 export const ENQUIRY_ENDPOINT = '';
 
 export const CONTACT_EMAIL = 'saloninm2007@gmail.com';
+
+// Consulting page (/hire-me) and its links. Off until it's ready to publish.
+export const CONSULTING_ENABLED = false;

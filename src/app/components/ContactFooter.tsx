@@ -4,6 +4,7 @@ import { useState } from 'react';
 import type React from 'react';
 import { CREAM, DISPLAY, SERIF, MONO } from './tokens';
 import { openContact } from './ContactModal';
+import { CONSULTING_ENABLED } from '../config';
 
 const BG = '#1C0F1F';
 const EMAIL = 'saloninm2007@gmail.com';
@@ -100,6 +101,7 @@ export function ContactFooter() {
           </button>
 
           <div className="flex flex-wrap items-center gap-2.5">
+            {CONSULTING_ENABLED && (
             <a
               href="/hire-me"
               onClick={goHireMe}
@@ -109,6 +111,7 @@ export function ContactFooter() {
               <Briefcase size={15} strokeWidth={1.6} />
               Get users to the ‘aha’
             </a>
+            )}
             {[
               { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/saloninm2007/' },
               { icon: Download, label: 'Resume', href: '/Saloni_Mehta_Resume.pdf' },
@@ -134,10 +137,15 @@ export function ContactFooter() {
           style={{ fontFamily: MONO, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(243,240,234,0.45)' }}
         >
           <span>
-            © {new Date().getFullYear()} Saloni Mehta ·{' '}
-            <a href="/hire-me" onClick={goHireMe} className="underline underline-offset-4 hover:text-[#F3F0EA]">
-              Get users to the ‘aha’
-            </a>
+            © {new Date().getFullYear()} Saloni Mehta
+            {CONSULTING_ENABLED && (
+              <>
+                {' · '}
+                <a href="/hire-me" onClick={goHireMe} className="underline underline-offset-4 hover:text-[#F3F0EA]">
+                  Get users to the ‘aha’
+                </a>
+              </>
+            )}
           </span>
           <span>Mumbai, India · IST (UTC+5:30)</span>
         </div>

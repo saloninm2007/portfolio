@@ -7,13 +7,14 @@ import { ContactFooter } from './components/ContactFooter';
 import { ContactModal } from './components/ContactModal';
 import { WorkWithMe } from './components/WorkWithMe';
 import { useEffect, useState } from 'react';
+import { CONSULTING_ENABLED } from './config';
 
 // The 'Get users to the ‘aha’' page lives at /hire-me (old /work-with-me still works). #hire-me opens it in previews.
 function useIsWorkWithMe() {
   const check = () => ['/hire-me', '/work-with-me'].includes(window.location.pathname.replace(/\/$/, '')) || ['#hire-me', '#work-with-me', '#sample-audit', '#sample-flow', '#sample-partner'].includes(window.location.hash);
-  const [on, setOn] = useState(check);
+  const [on, setOn] = useState(() => CONSULTING_ENABLED && check());
   useEffect(() => {
-    const update = () => setOn(check());
+    const update = () => setOn(CONSULTING_ENABLED && check());
     window.addEventListener('hashchange', update);
     window.addEventListener('popstate', update);
     return () => {

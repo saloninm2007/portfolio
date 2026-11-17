@@ -288,7 +288,6 @@ export function Hero() {
       style={{ background: CREAM, color: INK, minHeight: 'calc(100vh - 16px)' }}
     >
       <NameWatermark variant={variant} />
-      <VariantSwitcher value={variant} onChange={setVariant} />
       <div className="relative z-10 flex-1 flex items-center justify-center px-6 pt-32 pb-16">
         <div className="w-full max-w-6xl mx-auto flex flex-col items-center text-center">
 

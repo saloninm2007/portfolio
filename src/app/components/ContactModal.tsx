@@ -3,7 +3,7 @@ import { X, ArrowUpRight, Check } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { INK, CREAM, CARD, MUTED, DISPLAY, SERIF, MONO } from './tokens';
-import { ENQUIRY_ENDPOINT, CONTACT_EMAIL } from '../config';
+import { ENQUIRY_ENDPOINT, CONTACT_EMAIL, CONSULTING_ENABLED } from '../config';
 
 // Any button on the site can open this with: window.dispatchEvent(new CustomEvent('open-contact', { detail: 'source' }))
 export function openContact(source = 'site') {
@@ -99,7 +99,7 @@ export function ContactModal() {
       const body = Object.entries(data)
         .map(([k, v]) => `${k}: ${v}`)
         .join('\n');
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Project enquiry: ${data.name}`)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`${CONSULTING_ENABLED ? 'Project enquiry' : 'Hello'}: ${data.name}`)}&body=${encodeURIComponent(body)}`;
       setStatus('sent');
       return;
     }
@@ -164,10 +164,11 @@ export function ContactModal() {
                   Start a conversation
                 </span>
                 <h3 className="mt-5" style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 'clamp(2rem, 4vw, 2.8rem)', letterSpacing: '-0.05em', lineHeight: 0.95 }}>
-                  Tell me about the <span style={{ fontFamily: SERIF, fontStyle: 'italic', fontWeight: 400 }}>problem.</span>
+                  {CONSULTING_ENABLED ? 'Tell me about the' : "Let's"}{' '}
+                  <span style={{ fontFamily: SERIF, fontStyle: 'italic', fontWeight: 400 }}>{CONSULTING_ENABLED ? 'problem.' : 'talk.'}</span>
                 </h3>
                 <p className="mt-3" style={{ color: MUTED, lineHeight: 1.55 }}>
-                  A few lines is enough. I'll come back with questions, not a sales pitch.
+                  {CONSULTING_ENABLED ? "A few lines is enough. I'll come back with questions, not a sales pitch." : 'A few lines is enough. I read every message myself.'}
                 </p>
 
                 <form onSubmit={submit} className="mt-8 flex flex-col gap-5">
@@ -182,20 +183,24 @@ export function ContactModal() {
                   <Field label="Company / product">
                     <input name="company" className={inputCls} style={inputStyle} placeholder="Company name or website" />
                   </Field>
-                  <Field label="What do you need?">
-                    <Chips options={NEEDS} value={need} onChange={setNeed} />
-                  </Field>
-                  <Field label="Budget (USD)">
-                    <Chips options={BUDGETS} value={budget} onChange={setBudget} />
-                  </Field>
-                  <Field label="What's happening? *">
+                  {CONSULTING_ENABLED && (
+                    <>
+                      <Field label="What do you need?">
+                        <Chips options={NEEDS} value={need} onChange={setNeed} />
+                      </Field>
+                      <Field label="Budget (USD)">
+                        <Chips options={BUDGETS} value={budget} onChange={setBudget} />
+                      </Field>
+                    </>
+                  )}
+                  <Field label={CONSULTING_ENABLED ? "What's happening? *" : 'Your message *'}>
                     <textarea
                       name="message"
                       required
                       rows={4}
                       className={`${inputCls} resize-none`}
                       style={inputStyle}
-                      placeholder="Where are users getting stuck? What have you tried?"
+                      placeholder={CONSULTING_ENABLED ? 'Where are users getting stuck? What have you tried?' : 'What would you like to talk about?'}
                     />
                   </Field>
 
