@@ -1,315 +1,155 @@
-import { motion, AnimatePresence } from 'motion/react';
-import { Search, BarChart3, Heart, RefreshCw, MessageSquare, Lightbulb, Compass, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform, MotionValue } from 'motion/react';
+import { Search, BarChart3, Heart, RefreshCw, MessageSquare, Lightbulb } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
+import { SectionHeader } from './SectionHeader';
+import { INK, CREAM, CARD, MUTED, DISPLAY, MONO, cardShadow } from './tokens';
 
 const approaches = [
   {
     icon: Search,
+    tint: 'linear-gradient(135deg, #DBEAFE, #C7D2FE)',
     title: 'The brief is never the brief',
-    points: [
-      'I go upstream before I go anywhere. Every project starts with questioning what problem we\'re actually solving.'
-    ],
-    color: 'bg-gradient-to-br from-blue-100 to-indigo-200'
+    text: "I go upstream before I go anywhere. Every project starts with questioning what problem we're actually solving.",
   },
   {
     icon: BarChart3,
+    tint: 'linear-gradient(135deg, #F3E8FF, #FBCFE8)',
     title: 'Constraints are inputs, not walls',
-    points: [
-      'No budget, small team, tight deadline — I reorganise around them without shrinking the ambition.'
-    ],
-    color: 'bg-gradient-to-br from-purple-100 to-pink-200'
+    text: 'No budget, small team, tight deadline. I reorganise around them without shrinking the ambition.',
   },
   {
     icon: Heart,
+    tint: 'linear-gradient(135deg, #FFE4E6, #FED7AA)',
     title: 'Expertise narrows. Research confirms.',
-    points: [
-      'I\'m not guessing and I\'m not fishing blind. Experience narrows the search space. Evidence gives it shape.'
-    ],
-    color: 'bg-gradient-to-br from-rose-100 to-orange-200'
+    text: "I'm not guessing and I'm not fishing blind. Experience narrows the search space. Evidence gives it shape.",
   },
   {
     icon: RefreshCw,
+    tint: 'linear-gradient(135deg, #D1FAE5, #99F6E4)',
     title: 'Users decide. Not me, not the PM.',
-    points: [
-      'I create the conditions for the right answer to emerge. Then I get out of the way.'
-    ],
-    color: 'bg-gradient-to-br from-emerald-100 to-teal-200'
+    text: 'I create the conditions for the right answer to emerge. Then I get out of the way.',
   },
   {
     icon: MessageSquare,
+    tint: 'linear-gradient(135deg, #FEF3C7, #FEF08A)',
     title: 'Pushback is a diagnostic',
-    points: [
-      'When someone pushes back I ask — is this a constraint, a misalignment, or an ego? The answer decides my move.'
-    ],
-    color: 'bg-gradient-to-br from-amber-100 to-yellow-200'
+    text: 'When someone pushes back I ask: is this a constraint, a misalignment, or an ego? The answer decides my move.',
   },
   {
     icon: Lightbulb,
+    tint: 'linear-gradient(135deg, #CFFAFE, #BFDBFE)',
     title: 'My solutions are questions',
-    points: [
-      'I don\'t hand the room a conclusion. I hand them a reframe. That\'s why the work feels different.'
-    ],
-    color: 'bg-gradient-to-br from-cyan-100 to-blue-200'
-  }
+    text: "I don't hand the room a conclusion. I hand them a reframe. That's why the work feels different.",
+  },
 ];
 
-export function DesignApproach() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const nextCard = () => {
-    setActiveIndex((prev) => (prev + 1) % approaches.length);
-  };
-
-  const prevCard = () => {
-    setActiveIndex((prev) => (prev - 1 + approaches.length) % approaches.length);
-  };
-
+function usePinned() {
+  const query = '(min-width: 1024px) and (min-height: 760px)';
+  const [pinned, setPinned] = useState(() => typeof window !== 'undefined' && window.matchMedia(query).matches);
   useEffect(() => {
-    const currentRef = containerRef.current;
-    if (currentRef) {
-      const handleWheel = (e: WheelEvent) => {
-        // Detect horizontal scroll or shift+scroll
-        const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey;
-        const delta = isHorizontalScroll ? e.deltaX : e.deltaY;
-        
-        // Only handle if there's meaningful scroll
-        if (Math.abs(delta) < 10) return;
-        
-        e.preventDefault();
-        
-        // Clear existing timeout
-        if (scrollTimeoutRef.current) {
-          clearTimeout(scrollTimeoutRef.current);
-        }
-        
-        // Set new timeout to change card after scroll settles
-        scrollTimeoutRef.current = setTimeout(() => {
-          if (delta > 0) {
-            nextCard();
-          } else {
-            prevCard();
-          }
-        }, 50);
-      };
+    const mq = window.matchMedia(query);
+    const update = () => setPinned(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+  return pinned;
+}
 
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'ArrowRight') {
-          nextCard();
-        } else if (e.key === 'ArrowLeft') {
-          prevCard();
-        }
-      };
-      
-      currentRef.addEventListener('wheel', handleWheel, { passive: false });
-      currentRef.addEventListener('keydown', handleKeyDown);
-      
-      return () => {
-        currentRef.removeEventListener('wheel', handleWheel);
-        currentRef.removeEventListener('keydown', handleKeyDown);
-        if (scrollTimeoutRef.current) {
-          clearTimeout(scrollTimeoutRef.current);
-        }
-      };
-    }
-  }, [activeIndex]);
-
+function Appear({ progress, at, children }: { progress: MotionValue<number> | null; at: number; children: ReactNode }) {
+  if (!progress) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '0px 0px -12% 0px' }}
+        transition={{ duration: 0.55 }}
+        className="h-full"
+      >
+        {children}
+      </motion.div>
+    );
+  }
+  const t = useTransform(progress, (v) => Math.min(1, Math.max(0, (v - at) / 0.1)));
+  const opacity = useTransform(t, (v) => v);
+  const y = useTransform(t, (v) => (1 - v) * 48);
+  const scale = useTransform(t, (v) => 0.96 + v * 0.04);
   return (
-    <section id="approach" className="py-24 px-6 bg-gradient-to-b from-white via-violet-50/30 to-white overflow-hidden">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16 text-center"
-        >
-          <h2 className="font-['Playfair_Display',serif]" style={{
-            fontSize: 'var(--font-size-4xl)',
-            fontWeight: 'var(--font-weight-semibold)',
-            lineHeight: 'var(--line-height-tight)',
-            color: 'var(--text-primary)',
-            marginBottom: '1rem'
-          }}>Before The Solution</h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-violet-600 to-cyan-600 mx-auto mb-6"></div>
-          <p className="max-w-3xl mx-auto" style={{
-            fontSize: 'var(--font-size-lg)',
-            fontWeight: 'var(--font-weight-regular)',
-            lineHeight: 'var(--line-height-relaxed)',
-            color: 'var(--text-secondary)'
-          }}>
-            I don't have a process I follow. I have a way of thinking I bring to every problem.
-          </p>
-        </motion.div>
+    <motion.div style={{ opacity, y, scale }} className="h-full">
+      {children}
+    </motion.div>
+  );
+}
 
-        {/* Stacked Cards Container */}
-        <div className="relative h-[520px] md:h-[480px] flex items-center justify-center px-4" ref={containerRef} tabIndex={0}>
-          <div className="relative w-full max-w-7xl h-full">
-            {approaches.map((approach, index) => {
-              const Icon = approach.icon;
-              const offset = (index - activeIndex + approaches.length) % approaches.length;
-              
-              // Calculate position for multi-card carousel
-              let zIndex = 10 - Math.abs(offset);
-              let translateX = 0;
-              let scale = 1;
-              let opacity = 0;
-              let blur = 0;
-              let pointerEvents = 'none';
-
-              if (offset === 0) {
-                // Active card - center
-                translateX = 0;
-                scale = 1;
-                opacity = 1;
-                blur = 0;
-                zIndex = 20;
-                pointerEvents = 'auto';
-              } else if (offset === 1) {
-                // Next card - right side, fully visible
-                translateX = 440;
-                scale = 0.95;
-                opacity = 0.85;
-                blur = 0;
-                zIndex = 15;
-                pointerEvents = 'auto';
-              } else if (offset === approaches.length - 1) {
-                // Previous card - left side, fully visible
-                translateX = -440;
-                scale = 0.95;
-                opacity = 0.85;
-                blur = 0;
-                zIndex = 15;
-                pointerEvents = 'auto';
-              } else if (offset === 2) {
-                // Card after next - peek on far right
-                translateX = 880;
-                scale = 0.85;
-                opacity = 0.3;
-                blur = 10;
-                zIndex = 5;
-              } else if (offset === approaches.length - 2) {
-                // Card before previous - peek on far left
-                translateX = -880;
-                scale = 0.85;
-                opacity = 0.3;
-                blur = 10;
-                zIndex = 5;
-              } else {
-                // Cards too far away - hide completely
-                opacity = 0;
-                translateX = offset < approaches.length / 2 ? 1200 : -1200;
-              }
-
-              const isActive = offset === 0;
-
-              return (
-                <motion.div
-                  key={approach.title}
-                  initial={false}
-                  animate={{
-                    scale,
-                    x: translateX,
-                    opacity,
-                    zIndex,
-                    filter: `blur(${blur}px)`,
-                  }}
-                  transition={{
-                    duration: 0.6,
-                    ease: [0.25, 0.46, 0.45, 0.94]
-                  }}
-                  style={{
-                    pointerEvents: pointerEvents as any,
-                  }}
-                  className="absolute inset-0 flex items-center justify-center"
-                >
-                  <div 
-                    className={`bg-white rounded-3xl p-8 md:p-10 shadow-2xl w-full max-w-sm border transition-all h-[480px] md:h-[440px] flex flex-col ${
-                      isActive ? 'border-violet-200 shadow-violet-100/50' : 'border-neutral-100'
-                    }`}
-                    onClick={() => !isActive && setActiveIndex(index)}
-                  >
-                    <motion.div 
-                      className={`${approach.color} w-14 h-14 rounded-2xl flex items-center justify-center mb-5 flex-shrink-0`}
-                      animate={isActive ? { rotate: [0, 5, -5, 0] } : {}}
-                      transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                    >
-                      <Icon size={28} style={{ color: 'var(--text-secondary)' }} />
-                    </motion.div>
-                    <h3 style={{
-                      fontSize: isActive ? 'var(--font-size-3xl)' : 'var(--font-size-2xl)',
-                      fontWeight: 'var(--font-weight-semibold)',
-                      lineHeight: 'var(--line-height-snug)',
-                      color: 'var(--text-primary)',
-                      marginBottom: '1.5rem'
-                    }}>{approach.title}</h3>
-                    <div className="flex-1 overflow-auto">
-                      <ul className="space-y-3">
-                        {approach.points.map((point, i) => (
-                          <li key={i} style={{
-                            fontSize: 'var(--font-size-lg)',
-                            fontWeight: 'var(--font-weight-regular)',
-                            lineHeight: 'var(--line-height-relaxed)',
-                            color: 'var(--text-secondary)'
-                          }}>
-                            {point}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Navigation Buttons */}
-          <button
-            onClick={prevCard}
-            className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg hover:shadow-xl transition-all cursor-pointer flex items-center justify-center z-50 border border-neutral-200 hover:scale-110"
-            style={{ color: 'var(--text-primary)' }}
-            aria-label="Previous card"
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <button
-            onClick={nextCard}
-            className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg hover:shadow-xl transition-all cursor-pointer flex items-center justify-center z-50 border border-neutral-200 hover:scale-110"
-            style={{ color: 'var(--text-primary)' }}
-            aria-label="Next card"
-          >
-            <ChevronRight size={24} />
-          </button>
+function ApproachCard({ a, i }: { a: (typeof approaches)[0]; i: number }) {
+  const Icon = a.icon;
+  return (
+    <div className="h-full rounded-[24px] p-6 md:p-7 flex flex-col" style={{ background: CARD, boxShadow: cardShadow }}>
+      <div className="flex items-center justify-between">
+        <div className="w-12 h-12 rounded-[14px] flex items-center justify-center" style={{ background: INK }}>
+          <Icon size={20} strokeWidth={1.6} color="#FFFFFF" />
         </div>
-
-        {/* Dots Navigation */}
-        <div className="flex items-center justify-center gap-2 mt-12">
-          {approaches.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setActiveIndex(index)}
-              className="cursor-pointer transition-all"
-              style={{
-                width: activeIndex === index ? '32px' : '8px',
-                height: '8px',
-                borderRadius: '4px',
-                backgroundColor: activeIndex === index ? '#6366f1' : '#d4d4d8',
-              }}
-              aria-label={`Go to card ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Scroll to explore text */}
-        <div className="text-center mt-4">
-          <div style={{
-            fontSize: 'var(--font-size-xs)',
-            fontWeight: 'var(--font-weight-regular)',
-            color: 'var(--text-quaternary)'
-          }}>← Scroll to explore →</div>
-        </div>
+        <span style={{ fontFamily: MONO, fontSize: '0.72rem', letterSpacing: '0.14em', color: MUTED }}>
+          {String(i + 1).padStart(2, '0')}
+        </span>
       </div>
+      <h3
+        className="mt-6"
+        style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 'clamp(1.35rem, 1.8vw, 1.7rem)', lineHeight: 1.05, letterSpacing: '-0.035em', color: INK }}
+      >
+        {a.title}
+      </h3>
+      <p className="mt-3" style={{ fontSize: '0.95rem', lineHeight: 1.55, color: MUTED }}>
+        {a.text}
+      </p>
+    </div>
+  );
+}
+
+function Content({ progress }: { progress: MotionValue<number> | null }) {
+  return (
+    <div className="max-w-7xl mx-auto w-full">
+      <SectionHeader
+        pill="How I think"
+        title="Before the"
+        accent="solution."
+        note="I don't have a process I follow. I have a way of thinking I bring to every problem."
+      />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-3">
+        {approaches.map((a, i) => (
+          <Appear key={a.title} progress={progress} at={0.04 + i * 0.13}>
+            <ApproachCard a={a} i={i} />
+          </Appear>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PinnedApproach() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  return (
+    <div ref={ref} style={{ height: '320vh' }} className="relative">
+      <div className="sticky top-0 h-screen flex items-start pt-24 px-4 md:px-10">
+        <Content progress={scrollYProgress} />
+      </div>
+    </div>
+  );
+}
+
+export function DesignApproach() {
+  const pinned = usePinned();
+  return (
+    <section id="approach" style={{ background: CREAM, color: INK }}>
+      {pinned ? (
+        <PinnedApproach />
+      ) : (
+        <div className="px-4 md:px-10 py-20 md:py-28">
+          <Content progress={null} />
+        </div>
+      )}
     </section>
   );
 }

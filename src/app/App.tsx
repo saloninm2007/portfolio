@@ -4,41 +4,47 @@ import { WorkExperience } from './components/WorkExperience';
 import { ProjectStackingScroll } from './components/ProjectStackingScroll';
 import { Navigation } from './components/Navigation';
 import { ContactFooter } from './components/ContactFooter';
-import { motion } from 'motion/react';
+import { ContactModal } from './components/ContactModal';
+import { WorkWithMe } from './components/WorkWithMe';
+import { useEffect, useState } from 'react';
+
+// The 'Get users to the ‘aha’' page lives at /hire-me (old /work-with-me still works). #hire-me opens it in previews.
+function useIsWorkWithMe() {
+  const check = () => ['/hire-me', '/work-with-me'].includes(window.location.pathname.replace(/\/$/, '')) || ['#hire-me', '#work-with-me', '#sample-audit', '#sample-flow', '#sample-partner'].includes(window.location.hash);
+  const [on, setOn] = useState(check);
+  useEffect(() => {
+    const update = () => setOn(check());
+    window.addEventListener('hashchange', update);
+    window.addEventListener('popstate', update);
+    return () => {
+      window.removeEventListener('hashchange', update);
+      window.removeEventListener('popstate', update);
+    };
+  }, []);
+  return on;
+}
 
 export default function App() {
+  const workWithMe = useIsWorkWithMe();
+  if (workWithMe) {
+    return (
+      <>
+        <WorkWithMe />
+        <ContactModal />
+      </>
+    );
+  }
   return (
-    <div className="min-h-screen bg-white" style={{ color: 'var(--text-primary)', scrollBehavior: 'smooth' }}>
+    <div className="min-h-screen" style={{ background: '#0B0B0C', color: 'var(--text-primary)', scrollBehavior: 'smooth' }}>
       <Navigation />
-      <Hero />
-      <ProjectStackingScroll />
-      <DesignApproach />
-      <WorkExperience />
-      <ContactFooter />
-      
-      <motion.footer 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="py-8 px-6 bg-neutral-50"
-      >
-        <div className="max-w-6xl mx-auto text-center">
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            style={{ 
-              fontSize: 'var(--font-size-sm)', 
-              color: 'var(--text-tertiary)',
-              lineHeight: 'var(--line-height-normal)'
-            }}
-          >
-            © 2024 Saloni Mehta. All rights reserved.
-          </motion.p>
-        </div>
-      </motion.footer>
+      <div className="p-2 md:p-3 flex flex-col gap-2 md:gap-3">
+        {[<Hero key="hero" />, <ProjectStackingScroll key="work" />, <DesignApproach key="approach" />, <WorkExperience key="exp" />, <ContactFooter key="contact" />].map((section, i) => (
+          <div key={i} className="rounded-[24px] md:rounded-[36px] overflow-clip bg-[#F3F0EA]">
+            {section}
+          </div>
+        ))}
+      </div>
+      <ContactModal />
     </div>
   );
 }

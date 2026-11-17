@@ -573,7 +573,7 @@ function Container14() {
   return (
     <div className="h-[20px] relative shrink-0 w-[867px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute css-ew64yg font-['Inter:Medium',sans-serif] font-medium leading-[20px] left-0 not-italic text-[#737373] text-[14px] top-[0.5px] tracking-[-0.1504px]">— User Feedback</p>
+        <p className="absolute css-ew64yg font-['Inter:Medium',sans-serif] font-medium leading-[20px] left-0 not-italic text-[#737373] text-[14px] top-[0.5px] tracking-[-0.1504px]">User Feedback</p>
       </div>
     </div>
   );
@@ -2063,7 +2063,7 @@ function Container88() {
 
 function ImageSuperstoreByNykaaPricingClarityThatBuildsRetailerConfidence() {
   return (
-    <div className="h-[725.25px] relative shrink-0 w-full" data-name="Image (Superstore by Nykaa — Pricing Clarity That Builds Retailer Confidence)">
+    <div className="h-[725.25px] relative shrink-0 w-full" data-name="Image (Superstore by Nykaa, Pricing Clarity That Builds Retailer Confidence)">
       <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImageSuperstoreByNykaaPricingClarityThatBuildsRetailerConfidence} />
     </div>
   );
@@ -2123,7 +2123,7 @@ function Heading33() {
   return (
     <div className="h-[108px] relative shrink-0 w-[403.5px]" data-name="Heading 4">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute css-4hzbpn font-['Inter:Bold',sans-serif] font-bold leading-[36px] left-0 not-italic text-[30px] text-white top-0 tracking-[0.3955px] w-[361px]">Superstore by Nykaa — Pricing Clarity That Builds Retailer Confidence</p>
+        <p className="absolute css-4hzbpn font-['Inter:Bold',sans-serif] font-bold leading-[36px] left-0 not-italic text-[30px] text-white top-0 tracking-[0.3955px] w-[361px]">Superstore by Nykaa, Pricing Clarity That Builds Retailer Confidence</p>
       </div>
     </div>
   );

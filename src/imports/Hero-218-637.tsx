@@ -89,7 +89,7 @@ function Paragraph() {
   return (
     <div className="content-stretch flex items-center relative shrink-0" data-name="Paragraph">
       <div className="font-['Inter:Regular',sans-serif] font-normal leading-[26px] not-italic relative shrink-0 text-[#525252] text-[16px] tracking-[-0.6325px] w-[697px] whitespace-pre-wrap">
-        <p className="mb-0">I design experiences by deeply understanding users, context, and constraints — balancing user needs, technical realities, and business goals to solve the right problems.</p>
+        <p className="mb-0">I design experiences by deeply understanding users, context, and constraints, balancing user needs, technical realities, and business goals to solve the right problems.</p>
         <p>I lead and mentor design teams while staying hands-on across discovery, problem framing, and execution, creating alignment across product and engineering and helping teams ship high-quality, scalable solutions.</p>
       </div>
     </div>

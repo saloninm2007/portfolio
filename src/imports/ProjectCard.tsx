@@ -47,7 +47,7 @@ function ProjectCard1() {
 function ProjectCard2() {
   return (
     <div className="absolute h-[48.164px] left-[23.12px] top-[102.33px] w-[446.965px]" data-name="ProjectCard">
-      <p className="absolute font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[25px] left-0 not-italic text-[#1a1a1a] text-[20px] top-[-0.52px] tracking-[-0.4492px] w-[438px] whitespace-pre-wrap">Superstore by Nykaa — Pricing Clarity That Builds Retailer Confidence</p>
+      <p className="absolute font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[25px] left-0 not-italic text-[#1a1a1a] text-[20px] top-[-0.52px] tracking-[-0.4492px] w-[438px] whitespace-pre-wrap">Superstore by Nykaa, Pricing Clarity That Builds Retailer Confidence</p>
     </div>
   );
 }
@@ -192,7 +192,7 @@ function Container() {
 
 function ImageSuperstoreByNykaaPricingClarityThatBuildsRetailerConfidence() {
   return (
-    <div className="h-[369.902px] relative shrink-0 w-full" data-name="Image (Superstore by Nykaa — Pricing Clarity That Builds Retailer Confidence)">
+    <div className="h-[369.902px] relative shrink-0 w-full" data-name="Image (Superstore by Nykaa, Pricing Clarity That Builds Retailer Confidence)">
       <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImageSuperstoreByNykaaPricingClarityThatBuildsRetailerConfidence} />
     </div>
   );

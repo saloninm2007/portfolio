@@ -16,7 +16,7 @@ const projects = [
     description: 'Redesigning the homepage to reduce friction and guide users toward their first meaningful action',
     
     // New structure for detail page
-    subtitle: 'CoverSure — Redesigning the Homepage for Clarity & Action',
+    subtitle: 'CoverSure: Redesigning the Homepage for Clarity & Action',
     introText: 'CoverSure is an insurtech platform helping users understand, organize, and take action on their insurance. This project focuses on redesigning the homepage to improve early engagement, reduce drop-offs, and make the next step for users unmistakably clear.',
     
     myRole: [
@@ -91,7 +91,7 @@ const projects = [
       {
         title: 'Adaptive hero section with progress tracking',
         explanation: 'Instead of a static banner, the hero adapts to user state (new, returning, incomplete setup), highlighting the next best action while giving users a sense of progress and control.',
-        reasoning: 'Insurance is cognitively heavy—users feel lost when the app doesn\'t guide them. This reduces the "what now?" moment and improves activation.'
+        reasoning: 'Insurance is cognitively heavy, users feel lost when the app doesn\'t guide them. This reduces the "what now?" moment and improves activation.'
       },
       {
         title: 'Contextual feature prompts based on behavior',
@@ -128,9 +128,9 @@ const projects = [
     year: '2023-2024',
     category: 'Product Design',
     description: 'Making pricing transparent and actionable for 100,000+ retailers',
-    subtitle: 'Helping retailers understand pricing and value clearly on the Product Listing Page so they can make confident purchase decisions — without needing support or explanation.',
+    subtitle: 'Helping retailers understand pricing and value clearly on the Product Listing Page so they can make confident purchase decisions, without needing support or explanation.',
     metaLine: 'PRODUCT DESIGN · B2B COMMERCE · PRICING EXPERIENCE',
-    overview: 'Nykaa Superstore serves over 100,000 small retailers across India who source beauty and personal care products for their shops. Retailers compared prices, discounts, and quantity benefits before placing an order — but the Product Listing Page presented this information in a fragmented way.',
+    overview: 'Nykaa Superstore serves over 100,000 small retailers across India who source beauty and personal care products for their shops. Retailers compared prices, discounts, and quantity benefits before placing an order, but the Product Listing Page presented this information in a fragmented way.',
     
     myRole: [
       'User Research',
@@ -177,8 +177,8 @@ const projects = [
     
     problemStatement: 'The Fragmented Pricing Problem',
     problemDescription: [
-      'Retailers compared prices, discounts, and quantity benefits before placing an order — but the PLP presented this information in a fragmented way.',
-      'They weren\'t able to understand the final value or margin confidently, which led to hesitation, delayed purchases, and dependency on BDE explanation — especially on weekends when support wasn\'t available.'
+      'Retailers compared prices, discounts, and quantity benefits before placing an order, but the PLP presented this information in a fragmented way.',
+      'They weren\'t able to understand the final value or margin confidently, which led to hesitation, delayed purchases, and dependency on BDE explanation, especially on weekends when support wasn\'t available.'
     ],
     problemEvidence: [
       'Fragmented price understanding',
@@ -197,7 +197,7 @@ const projects = [
       'I only place the order when I clearly understand the price breakdown.',
       'If I\'m not sure about the final margin, I delay the purchase.'
     ],
-    discoveryHypothesis: 'If pricing on the PLP is structured, transparent, and self-explained, retailers will be able to make confident decisions independently — leading to faster and more independent ordering.',
+    discoveryHypothesis: 'If pricing on the PLP is structured, transparent, and self-explained, retailers will be able to make confident decisions independently, leading to faster and more independent ordering.',
     
     strategyTitle: 'Design Strategy',
     strategyDescription: 'Making pricing transparent, structured, and self-explanatory so retailers can make confident decisions independently.',
@@ -207,7 +207,7 @@ const projects = [
         description: 'Help retailers understand value instantly without effort'
       },
       {
-        title: 'Explain offers — don\'t hide them',
+        title: 'Explain offers, don\'t hide them',
         description: 'Make savings and conditions transparent and predictable'
       },
       {
@@ -225,7 +225,7 @@ const projects = [
       },
       {
         decision: 'Best-price explanation bottom sheet',
-        why: 'A transparent price breakdown that explains eligibility, conditions, and final benefit in a simple narrative format — instead of users having to interpret discounts on their own.',
+        why: 'A transparent price breakdown that explains eligibility, conditions, and final benefit in a simple narrative format, instead of users having to interpret discounts on their own.',
         reasoning: 'This enables self-served price understanding rather than relying on BDE clarification.'
       },
       {
@@ -241,7 +241,7 @@ const projects = [
       { value: 'Higher', label: 'conversion on price-visible SKUs', description: 'Clarity reduced hesitation at the decision point' },
       { value: 'Drop in', label: 'clarification calls to BDEs', description: 'Support time shifted to higher-value conversations' }
     ],
-    impactNarrative: 'The redesign didn\'t just clarify pricing — it improved confidence. Retailers felt informed, independent, and in control of their purchase decisions.',
+    impactNarrative: 'The redesign didn\'t just clarify pricing, it improved confidence. Retailers felt informed, independent, and in control of their purchase decisions.',
     
     // Future improvements
     futureImprovements: [

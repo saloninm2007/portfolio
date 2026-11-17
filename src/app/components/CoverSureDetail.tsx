@@ -285,7 +285,7 @@ export function CoverSureDetail({ project, onClose, nextProject, onNextProject }
                             <p className="text-lg md:text-xl font-medium text-neutral-800 leading-relaxed mb-4 italic">
                               {project.researchQuote}
                             </p>
-                            <div className="text-sm text-neutral-500 font-medium">— Retailer Feedback</div>
+                            <div className="text-sm text-neutral-500 font-medium">Retailer Feedback</div>
                           </div>
                         )}
                       </div>

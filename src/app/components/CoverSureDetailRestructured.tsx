@@ -44,7 +44,7 @@ export function CoverSureDetailRestructured({ project, onClose }: CoverSureDetai
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 z-50"
+          className="fixed inset-0 bg-black/80 z-50 cs-theme"
           onClick={onClose}
         >
           <div className="h-full overflow-y-auto">
@@ -575,7 +575,7 @@ export function CoverSureDetailRestructured({ project, onClose }: CoverSureDetai
                               lineHeight: 'var(--line-height-relaxed)',
                               color: 'var(--text-secondary)'
                             }}>
-                              Redesigning the homepage wasn't just a visual exercise — it required thinking about states, user readiness, contextual prompts, and long-term extensibility. This reinforced the importance of modular thinking and designing for future iterations.
+                              Redesigning the homepage wasn't just a visual exercise, it required thinking about states, user readiness, contextual prompts, and long-term extensibility. This reinforced the importance of modular thinking and designing for future iterations.
                             </p>
                           </div>
                         </div>

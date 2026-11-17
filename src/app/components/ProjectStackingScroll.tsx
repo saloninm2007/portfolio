@@ -1,6 +1,7 @@
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, MotionValue } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import type React from 'react';
 import { ProjectDetail } from './ProjectDetail';
 import CoverSureDetailPage from '@/imports/Container-59-2617';
 import coverSureThumbnail from 'figma:asset/cf86cedfb8b910f631b334e8e98d8c9b73185391.png';
@@ -14,7 +15,7 @@ const projects = [
     category: 'B2C | InsureTech',
     description: 'Redesigning the homepage to reduce friction and guide users toward their first meaningful action',
     
-    subtitle: 'CoverSure — Redesigning the Homepage for Clarity & Action',
+    subtitle: 'CoverSure: Redesigning the Homepage for Clarity & Action',
     introText: 'CoverSure is an insurtech platform helping users understand, organize, and take action on their insurance. This project focuses on redesigning the homepage to improve early engagement, reduce drop-offs, and make the next step for users unmistakably clear.',
     
     myRole: [
@@ -89,7 +90,7 @@ const projects = [
       {
         title: 'Adaptive hero section with progress tracking',
         explanation: 'Instead of a static banner, the hero adapts to user state (new, returning, incomplete setup), highlighting the next best action while giving users a sense of progress and control.',
-        reasoning: 'Insurance is cognitively heavy—users feel lost when the app doesn\'t guide them. This reduces the \"what now?\" moment and improves activation.'
+        reasoning: 'Insurance is cognitively heavy, users feel lost when the app doesn\'t guide them. This reduces the \"what now?\" moment and improves activation.'
       },
       {
         title: 'Contextual feature prompts based on behavior',
@@ -126,9 +127,9 @@ const projects = [
     year: '2023-2024',
     category: 'B2B2C | Assisted Commerce',
     description: 'Making pricing transparent and actionable for 100,000+ retailers',
-    subtitle: 'Helping retailers understand pricing and value clearly on the Product Listing Page so they can make confident purchase decisions — without needing support or explanation.',
+    subtitle: 'Helping retailers understand pricing and value clearly on the Product Listing Page so they can make confident purchase decisions, without needing support or explanation.',
     metaLine: 'PRODUCT DESIGN · B2B COMMERCE · PRICING EXPERIENCE',
-    overview: 'Nykaa Superstore serves over 100,000 small retailers across India who source beauty and personal care products for their shops. Retailers compared prices, discounts, and quantity benefits before placing an order — but the Product Listing Page presented this information in a fragmented way.',
+    overview: 'Nykaa Superstore serves over 100,000 small retailers across India who source beauty and personal care products for their shops. Retailers compared prices, discounts, and quantity benefits before placing an order, but the Product Listing Page presented this information in a fragmented way.',
     
     myRole: [
       'User Research',
@@ -174,8 +175,8 @@ const projects = [
     
     problemStatement: 'The Fragmented Pricing Problem',
     problemDescription: [
-      'Retailers compared prices, discounts, and quantity benefits before placing an order — but the PLP presented this information in a fragmented way.',
-      'They weren\'t able to understand the final value or margin confidently, which led to hesitation, delayed purchases, and dependency on BDE explanation — especially on weekends when support wasn\'t available.'
+      'Retailers compared prices, discounts, and quantity benefits before placing an order, but the PLP presented this information in a fragmented way.',
+      'They weren\'t able to understand the final value or margin confidently, which led to hesitation, delayed purchases, and dependency on BDE explanation, especially on weekends when support wasn\'t available.'
     ],
     problemEvidence: [
       'Fragmented price understanding',
@@ -194,7 +195,7 @@ const projects = [
       'I only place the order when I clearly understand the price breakdown.',
       'If I\'m not sure about the final margin, I delay the purchase.'
     ],
-    discoveryHypothesis: 'If pricing on the PLP is structured, transparent, and self-explained, retailers will be able to make confident decisions independently — leading to faster and more independent ordering.',
+    discoveryHypothesis: 'If pricing on the PLP is structured, transparent, and self-explained, retailers will be able to make confident decisions independently, leading to faster and more independent ordering.',
     
     strategyTitle: 'Design Strategy',
     strategyDescription: 'Making pricing transparent, structured, and self-explanatory so retailers can make confident decisions independently.',
@@ -204,7 +205,7 @@ const projects = [
         description: 'Help retailers understand value instantly without effort'
       },
       {
-        title: 'Explain offers — don\'t hide them',
+        title: 'Explain offers, don\'t hide them',
         description: 'Make savings and conditions transparent and predictable'
       },
       {
@@ -222,7 +223,7 @@ const projects = [
       },
       {
         decision: 'Best-price explanation bottom sheet',
-        why: 'A transparent price breakdown that explains eligibility, conditions, and final benefit in a simple narrative format — instead of users having to interpret discounts on their own.',
+        why: 'A transparent price breakdown that explains eligibility, conditions, and final benefit in a simple narrative format, instead of users having to interpret discounts on their own.',
         reasoning: 'This enables self-served price understanding rather than relying on BDE clarification.'
       },
       {
@@ -238,7 +239,7 @@ const projects = [
       { value: 'Higher', label: 'conversion on price-visible SKUs', description: 'Clarity reduced hesitation at the decision point' },
       { value: 'Drop in', label: 'clarification calls to BDEs', description: 'Support time shifted to higher-value conversations' }
     ],
-    impactNarrative: 'The redesign didn\'t just clarify pricing — it improved confidence. Retailers felt informed, independent, and in control of their purchase decisions.',
+    impactNarrative: 'The redesign didn\'t just clarify pricing, it improved confidence. Retailers felt informed, independent, and in control of their purchase decisions.',
     
     futureImprovements: [
       'Extend pricing clarity patterns to PDP for consistency across the entire purchase journey',
@@ -283,175 +284,301 @@ const projects = [
   }
 ];
 
-interface ProjectCardProps {
-  project: typeof projects[0];
-  index: number;
-  onClick: () => void;
-}
+const INK = '#1C0F1F';
+const CREAM = '#F3F0EA';
+const CARD = '#FFFDF9';
+const MUTED = '#6A5E6C';
+const DISPLAY = "'Inter Tight', 'Inter Display', 'Inter', sans-serif";
+const SERIF = "'Instrument Serif', 'Playfair Display', Georgia, serif";
+const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace";
 
-function ProjectCard({ project, index, onClick }: ProjectCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "start start"]
-  });
+type Project = typeof projects[0];
 
-  const scale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+// Short display copy for each case study card (keyed by company)
+const CARD_COPY: Record<string, { name: string; challenge: string; focus: string }> = {
+  CoverSure: {
+    name: 'CoverSure Home',
+    challenge: 'People signed up, then uninstalled within five days, without adding a single policy.',
+    focus: 'Product strategy · UX architecture',
+  },
+  Nykaa: {
+    name: 'Nykaa Superstore',
+    challenge: 'Retailers could see every price, yet still couldn’t tell if they were getting a good deal.',
+    focus: 'Research · Information architecture',
+  },
+  Framework: {
+    name: 'VIMM Framework',
+    challenge: 'Research findings weren’t turning into product decisions across teams.',
+    focus: 'Usability analysis · Team alignment',
+  },
+};
 
+const label: React.CSSProperties = {
+  fontFamily: MONO,
+  fontSize: '0.68rem',
+  letterSpacing: '0.14em',
+  textTransform: 'uppercase',
+  color: MUTED,
+};
+
+function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <motion.div
-      ref={cardRef}
-      style={{ scale }}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="will-change-transform relative"
+    <div
+      className={`rounded-[24px] p-6 md:p-7 ${className}`}
+      style={{ background: CARD, boxShadow: '0 1px 0 rgba(28,15,31,0.04), 0 12px 32px -18px rgba(28,15,31,0.18)' }}
     >
-      <motion.div
-        whileHover={{ y: -8 }}
-        transition={{ duration: 0.3 }}
-        className="group relative bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer"
-        onClick={onClick}
-      >
-        {/* Grid layout: 2 columns on desktop, 1 column on mobile */}
-        <div className="grid grid-cols-1 lg:grid-cols-2">
-          {/* Image Section */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-200">
-            <div className={`${project.impactStats && project.impactStats.length > 0 ? 'aspect-[4/3] lg:aspect-auto lg:h-full' : 'aspect-[4/3]'}`}>
-              <motion.img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-              />
-              
-              {/* Hover overlay with icon */}
-              <motion.div
-                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  whileHover={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="w-16 h-16 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg"
-                >
-                  <ArrowUpRight size={24} style={{ color: 'var(--text-primary)' }} />
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-          
-          {/* Content Section */}
-          <div className={`flex flex-col ${project.impactStats && project.impactStats.length > 0 ? 'justify-between' : 'justify-start'} p-8 lg:p-10`}>
-            {/* Top Section */}
-            <div className="flex flex-col gap-8">
-              {/* Meta Info */}
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="font-['Inter',sans-serif] font-semibold leading-[18px] text-[#737373] text-[12px] tracking-[0.96px] uppercase">
-                  {project.company}
-                </span>
-                <span className="font-['Inter',sans-serif] font-normal leading-[24px] text-[#737373] text-[16px] tracking-[-0.3125px]">•</span>
-                <span className="font-['Inter',sans-serif] font-medium leading-[18px] text-[#737373] text-[12px]">
-                  {project.year}
-                </span>
-                <span className="ml-auto px-2.5 py-1 rounded-full bg-[#ede9fe] font-['Inter',sans-serif] font-medium leading-[18px] text-[#7008e7] text-[12px]">
-                  {project.category}
-                </span>
-              </div>
-
-              {/* Title */}
-              <h3 className="font-['Inter',sans-serif] font-semibold leading-[25px] text-[#1a1a1a] text-[20px] tracking-[-0.4492px]">
-                {project.title}
-              </h3>
-
-              {/* Impact Stats */}
-              {project.impactStats && project.impactStats.length > 0 && (
-                <div className="flex items-start justify-between gap-4 pt-2 pb-8 border-b border-[#e5e5e5]">
-                  {project.impactStats.slice(0, 3).map((stat: any, idx: number) => (
-                    <div key={idx} className="flex flex-col gap-1.5 flex-1">
-                      <p className="font-['Inter',sans-serif] font-bold leading-[21.6px] text-[#1a1a1a] text-[18px] tracking-[-0.4395px]">
-                        {stat.value}
-                      </p>
-                      <p className="font-['Inter',sans-serif] font-medium leading-[15.6px] text-[#737373] text-[12px]">
-                        {stat.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Bottom Section - CTA */}
-            <div className={`flex gap-2 items-center justify-center w-full pt-6 ${!(project.impactStats && project.impactStats.length > 0) ? 'border-t border-[#e5e5e5] mt-8' : ''}`}>
-              <p className="font-['Inter',sans-serif] font-semibold leading-[21px] text-[#1a1a1a] text-[14px] tracking-[-0.1504px]">
-                View Full Case Study
-              </p>
-              <svg className="block size-[15px]" fill="none" preserveAspectRatio="none" viewBox="0 0 15.4126 15.4126">
-                <path d="M3.85323 11.5595L11.5595 3.85323" stroke="#1A1A1A" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.28438" />
-                <path d="M3.85323 3.85323H11.5595V11.5595" stroke="#1A1A1A" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.28438" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
+      {children}
+    </div>
   );
 }
 
+function CaseImage({ project }: { project: Project }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <div className="relative aspect-[4/3] rounded-[18px] overflow-hidden" style={{ background: '#E9E3D8', maxHeight: 'calc(100vh - 19rem)' }}>
+      {!failed ? (
+        <img
+          src={project.image as string}
+          alt={project.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center p-10 text-center" style={{ background: 'linear-gradient(140deg, #E9E3D8, #D9CFE0)' }}>
+          <span style={{ fontFamily: SERIF, fontStyle: 'italic', fontSize: 'clamp(2rem, 3.5vw, 3rem)', color: INK }}>
+            {project.category}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function usePinnedLayout() {
+  const query = '(min-width: 1024px) and (min-height: 700px)';
+  const [pinned, setPinned] = useState(() => typeof window !== 'undefined' && window.matchMedia(query).matches);
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const update = () => setPinned(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+  return pinned;
+}
+
+// A card that fades/slides in when scroll progress passes its threshold
+function Step({ progress, at, children }: { progress: MotionValue<number> | null; at: number; children: React.ReactNode }) {
+  if (!progress) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '0px 0px -15% 0px' }}
+        transition={{ duration: 0.6 }}
+      >
+        {children}
+      </motion.div>
+    );
+  }
+  // Function transforms (not range maps) so the browser can't hand these off to a scroll timeline
+  const t = useTransform(progress, (v) => Math.min(1, Math.max(0, (v - at) / 0.12)));
+  const opacity = useTransform(t, (v) => v);
+  const y = useTransform(t, (v) => (1 - v) * 56);
+  return <motion.div style={{ opacity, y }}>{children}</motion.div>;
+}
+
+function CaseStudyContent({ project, index, total, onOpen, progress }: { project: Project; index: number; total: number; onOpen: () => void; progress: MotionValue<number> | null }) {
+  const copy = CARD_COPY[project.company] ?? { name: project.company, challenge: project.description, focus: project.category };
+  const stats = ((project as any).impactStats as { value: string; label: string }[] | undefined)?.slice(0, 3);
+  const num = String(index + 1).padStart(2, '0');
+  const offsets = ['md:mt-0', 'md:mt-7', 'md:mt-3'];
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start w-full">
+      {/* Featured card */}
+      <div className="lg:col-span-7">
+        <button onClick={onOpen} className="group w-full text-left cursor-pointer">
+          <Card className="flex flex-col">
+            <div className="flex items-center justify-between" style={label}>
+              <span>Case study {num} / {String(total).padStart(2, '0')}</span>
+              <span>{project.category}</span>
+            </div>
+            <div className="mt-4 mb-5 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+              <h3 style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 'clamp(2.1rem, 3.8vw, 3.4rem)', lineHeight: 0.95, letterSpacing: '-0.05em', color: INK }}>
+                {copy.name}
+              </h3>
+              <p className="md:text-right md:max-w-[15rem]" style={{ fontSize: '0.9rem', lineHeight: 1.5, color: MUTED }}>
+                {project.title}
+              </p>
+            </div>
+            <CaseImage project={project} />
+          </Card>
+        </button>
+      </div>
+
+      {/* Supporting cards, appear one by one, stacking below each other */}
+      <div className="lg:col-span-5 flex flex-col gap-3">
+        <Step progress={progress} at={0.12}>
+          <Card>
+            <div style={label}>The challenge</div>
+            <p className="mt-3" style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 'clamp(1.3rem, 1.85vw, 1.7rem)', lineHeight: 1.15, letterSpacing: '-0.03em', color: INK }}>
+              {copy.challenge}
+            </p>
+          </Card>
+        </Step>
+
+        <Step progress={progress} at={0.38}>
+          <Card>
+            <div style={label}>{stats && stats.length ? 'What moved' : 'The outcome'}</div>
+            {stats && stats.length ? (
+              <div className="mt-5 grid grid-cols-3 gap-3 items-start">
+                {stats.map((s, i) => (
+                  <div key={i} className={`border-l pl-3 ${offsets[i]}`} style={{ borderColor: 'rgba(28,15,31,0.22)' }}>
+                    <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 'clamp(1.25rem, 1.9vw, 1.9rem)', lineHeight: 1, letterSpacing: '-0.05em', color: INK, whiteSpace: 'nowrap' }}>
+                      {s.value}
+                    </div>
+                    <div className="mt-2" style={{ ...label, fontSize: '0.62rem', letterSpacing: '0.08em', lineHeight: 1.45 }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-3" style={{ fontSize: '1rem', lineHeight: 1.55, color: INK }}>{project.description}</p>
+            )}
+          </Card>
+        </Step>
+
+        <Step progress={progress} at={0.64}>
+          <Card>
+            <div style={label}>Project</div>
+            <div className="mt-2">
+              {[
+                project.company === 'Framework' ? ['Type', 'Framework'] : ['Company', project.company],
+                ['Year', project.year],
+                ['Focus', copy.focus],
+              ].map(([k, v], i) => (
+                <div key={k} className={`flex items-baseline justify-between gap-4 py-2 ${i ? 'border-t' : ''}`} style={{ borderColor: 'rgba(28,15,31,0.08)' }}>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600, color: INK }}>{k}</span>
+                  <span className="text-right" style={{ fontSize: '0.88rem', color: MUTED }}>{v}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={onOpen}
+              className="group/cta mt-4 flex items-center cursor-pointer"
+              style={{ fontFamily: MONO, fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}
+            >
+              <span className="rounded-full px-5 py-3" style={{ background: INK, color: CREAM }}>View case study</span>
+              <span className="-ml-px flex items-center justify-center rounded-full w-[42px] h-[42px] transition-transform group-hover/cta:rotate-45" style={{ background: INK, color: CREAM }}>
+                <ArrowUpRight size={15} strokeWidth={1.75} />
+              </span>
+            </button>
+          </Card>
+        </Step>
+      </div>
+    </div>
+  );
+}
+
+// Pinned version: the whole project sticks to the screen while its cards appear
+function PinnedCaseStudy(props: { project: Project; index: number; total: number; onOpen: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  return (
+    <div ref={ref} style={{ height: '280vh' }} className="relative">
+      <div className="sticky top-0 h-screen flex items-start pt-24 pb-6">
+        <CaseStudyContent {...props} progress={scrollYProgress} />
+      </div>
+    </div>
+  );
+}
+
+function CaseStudy(props: { project: Project; index: number; total: number; onOpen: () => void }) {
+  const pinned = usePinnedLayout();
+  return pinned ? <PinnedCaseStudy {...props} /> : <CaseStudyContent {...props} progress={null} />;
+}
+
 export function ProjectStackingScroll() {
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  // Hero outcome links open a case study by company name
+  useEffect(() => {
+    const open = (e: Event) => {
+      const p = projects.find((x) => x.company === (e as CustomEvent).detail);
+      if (p) setSelectedProject(p);
+    };
+    window.addEventListener('open-case-study', open);
+    return () => window.removeEventListener('open-case-study', open);
+  }, []);
+  const listRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: listProgress } = useScroll({ target: listRef, offset: ['start end', 'end start'] });
+  // Slow horizontal drift for the watermark (function form keeps it on the main thread)
+  const watermarkX = useTransform(listProgress, (v) => `${10 - v * 20}%`);
 
   return (
     <>
-      <section id="work" className="relative py-32 px-6 bg-gradient-to-br from-neutral-50 via-blue-50/30 to-neutral-50">
-        <div className="max-w-5xl mx-auto">
+      <section id="work" className="relative px-4 md:px-10 pt-24 md:pt-28 pb-16 md:pb-20" style={{ background: CREAM, color: INK }}>
+        <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-20"
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-6 md:mb-2 px-2"
           >
-            <h2 className="font-['Playfair_Display',serif]" style={{
-              fontSize: 'var(--font-size-4xl)',
-              fontWeight: 'var(--font-weight-semibold)',
-              lineHeight: 'var(--line-height-tight)',
-              color: 'var(--text-primary)',
-              marginBottom: '1rem'
-            }}>Featured Work</h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-violet-600 to-cyan-600 mx-auto mb-6"></div>
-            <p className="max-w-2xl mx-auto" style={{
-              fontSize: 'var(--font-size-lg)',
-              fontWeight: 'var(--font-weight-regular)',
-              lineHeight: 'var(--line-height-relaxed)',
-              color: 'var(--text-secondary)'
-            }}>
-              Selected projects showcasing product strategy, user research, and interaction design
+            <div>
+              <span
+                className="inline-block rounded-full border px-4 py-1.5 mb-6"
+                style={{ borderColor: INK, fontFamily: MONO, fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}
+              >
+                Selected work
+              </span>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 'clamp(2.5rem, 6vw, 5.5rem)', lineHeight: 0.95, letterSpacing: '-0.05em' }}>
+                Problems, <span style={{ fontFamily: SERIF, fontStyle: 'italic', fontWeight: 400, letterSpacing: '-0.02em' }}>reframed.</span>
+              </h2>
+            </div>
+            <p className="md:max-w-xs md:text-right" style={{ fontFamily: MONO, fontSize: '0.75rem', letterSpacing: '0.06em', textTransform: 'uppercase', lineHeight: 1.6, color: MUTED }}>
+              {String(projects.length).padStart(2, '0')} case studies · what was broken, what changed, what moved
             </p>
           </motion.div>
-          
-          {/* Cards - Simple vertical stack */}
-          <div className="space-y-8">
-            {projects.map((project, index) => (
-              <ProjectCard
-                key={index}
-                project={project}
-                index={index}
-                onClick={() => setSelectedProject(project)}
-              />
-            ))}
+
+          {/* Case studies, with a sticky parallax watermark behind them */}
+          <div ref={listRef} className="relative">
+            <div aria-hidden className="pointer-events-none absolute inset-0 z-0 hidden lg:block">
+              <div className="sticky top-0 h-screen flex items-end justify-center overflow-hidden pb-[3vh]">
+                <motion.span
+                  style={{
+                    x: watermarkX,
+                    fontFamily: SERIF,
+                    fontStyle: 'italic',
+                    fontWeight: 400,
+                    fontSize: '23vw',
+                    lineHeight: 0.8,
+                    letterSpacing: '-0.035em',
+                    color: 'rgba(28,15,31,0.07)',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  Projects
+                </motion.span>
+              </div>
+            </div>
+            <div className="relative z-10 flex flex-col gap-16 lg:gap-0">
+              {projects.map((project, index) => (
+                <CaseStudy
+                  key={index}
+                  project={project}
+                  index={index}
+                  total={projects.length}
+                  onOpen={() => setSelectedProject(project)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <ProjectDetail 
-        project={selectedProject} 
-        onClose={() => setSelectedProject(null)}
-      />
+      <ProjectDetail project={selectedProject} onClose={() => setSelectedProject(null)} />
     </>
   );
 }

@@ -45,18 +45,20 @@ export function Navigation() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
-        }`}
+        className="fixed top-4 md:top-6 left-0 right-0 z-40 px-5 md:px-8"
       >
-        <div className="max-w-6xl mx-auto px-6 py-3 md:py-4">
+        <div className={`max-w-6xl mx-auto px-5 md:px-7 py-2.5 md:py-3 rounded-full transition-all duration-300 ${
+          isScrolled ? "bg-[#F3F0EA]/90 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.25)]" : "bg-transparent"
+        }`}>
           <div className="flex items-center justify-between">
             <button
               onClick={() => scrollToSection('hero')}
               className="cursor-pointer"
               style={{
-                fontSize: 'var(--font-size-xl)',
-                fontWeight: 'var(--font-weight-semibold)',
+                fontSize: '1.35rem',
+                fontWeight: 800,
+                fontFamily: "'Inter Tight', 'Inter Display', 'Inter', sans-serif",
+                letterSpacing: '-0.06em',
                 color: 'var(--text-primary)',
                 transition: 'color 0.2s'
               }}
@@ -72,7 +74,7 @@ export function Navigation() {
                 onClick={() => scrollToSection('hero')}
                 className="relative cursor-pointer transition-colors"
                 style={{
-                  fontSize: 'var(--font-size-sm)',
+                  fontSize: '0.7rem', fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.1em', textTransform: 'uppercase',
                   fontWeight: 'var(--font-weight-medium)',
                   color: activeSection === 'hero' ? 'var(--text-primary)' : 'var(--text-secondary)'
                 }}
@@ -97,7 +99,7 @@ export function Navigation() {
                 onClick={() => scrollToSection('approach')}
                 className="relative cursor-pointer transition-colors"
                 style={{
-                  fontSize: 'var(--font-size-sm)',
+                  fontSize: '0.7rem', fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.1em', textTransform: 'uppercase',
                   fontWeight: 'var(--font-weight-medium)',
                   color: activeSection === 'approach' ? 'var(--text-primary)' : 'var(--text-secondary)'
                 }}
@@ -122,7 +124,7 @@ export function Navigation() {
                 onClick={() => scrollToSection('work')}
                 className="relative cursor-pointer transition-colors"
                 style={{
-                  fontSize: 'var(--font-size-sm)',
+                  fontSize: '0.7rem', fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.1em', textTransform: 'uppercase',
                   fontWeight: 'var(--font-weight-medium)',
                   color: activeSection === 'work' ? 'var(--text-primary)' : 'var(--text-secondary)'
                 }}
@@ -147,7 +149,7 @@ export function Navigation() {
                 onClick={() => scrollToSection('experience')}
                 className="relative cursor-pointer transition-colors"
                 style={{
-                  fontSize: 'var(--font-size-sm)',
+                  fontSize: '0.7rem', fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.1em', textTransform: 'uppercase',
                   fontWeight: 'var(--font-weight-medium)',
                   color: activeSection === 'experience' ? 'var(--text-primary)' : 'var(--text-secondary)'
                 }}

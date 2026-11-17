@@ -39,7 +39,7 @@ export function NykaaDetailRestructured({ project, onClose }: NykaaDetailRestruc
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 z-50"
+          className="fixed inset-0 bg-black/80 z-50 cs-theme"
           onClick={onClose}
         >
           <div className="h-full overflow-y-auto">
@@ -156,7 +156,7 @@ export function NykaaDetailRestructured({ project, onClose }: NykaaDetailRestruc
                           lineHeight: 'var(--line-height-relaxed)',
                           color: 'var(--text-primary)'
                         }}>
-                          Retailers could see prices on the Product Listing Page, but they couldn't confidently evaluate value. They had to mentally compare MRP, discounts, quantity-based pricing, and profit margins across multiple products — creating decision friction. Many relied on Business Development Executives (BDEs) to explain which products offered the best deal, turning what should be a self-service experience into a dependency on sales support.
+                          Retailers could see prices on the Product Listing Page, but they couldn't confidently evaluate value. They had to mentally compare MRP, discounts, quantity-based pricing, and profit margins across multiple products, creating decision friction. Many relied on Business Development Executives (BDEs) to explain which products offered the best deal, turning what should be a self-service experience into a dependency on sales support.
                         </p>
                       </div>
                     </section>
@@ -460,11 +460,11 @@ export function NykaaDetailRestructured({ project, onClose }: NykaaDetailRestruc
 
                       <div className="grid md:grid-cols-2 gap-4">
                         {[
-                          { icon: <DollarSign size={20} />, text: 'MRP serves as the primary pricing anchor — retailers compare all discounts against it' },
+                          { icon: <DollarSign size={20} />, text: 'MRP serves as the primary pricing anchor, retailers compare all discounts against it' },
                           { icon: <Target size={20} />, text: 'Profit margin per unit matters more than overall order value for small retailers' },
                           { icon: <Zap size={20} />, text: 'Retailers prefer quick scanning over detailed calculations when browsing products' },
                           { icon: <BarChart3 size={20} />, text: 'Quantity-based pricing creates confusion when not clearly labeled as "best option"' },
-                          { icon: <Eye size={20} />, text: '"Best price" is contextual — it depends on stock needs, not just the lowest unit price' }
+                          { icon: <Eye size={20} />, text: '"Best price" is contextual, it depends on stock needs, not just the lowest unit price' }
                         ].map((insight, index) => (
                           <div key={index} className="flex gap-3 items-start bg-neutral-50 p-4 rounded-lg border border-neutral-200">
                             <div className="flex-shrink-0 text-orange-600 mt-0.5">

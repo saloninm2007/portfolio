@@ -32,7 +32,7 @@ function Heading() {
 function Paragraph() {
   return (
     <div className="absolute h-[21px] left-[32px] top-[174px] w-[314px]" data-name="Paragraph">
-      <p className="-translate-x-1/2 absolute font-['Inter:Medium',sans-serif] font-medium leading-[21px] left-[157.72px] not-italic text-[#737373] text-[14px] text-center top-0 tracking-[-0.1504px]">March 2021 — June 2023</p>
+      <p className="-translate-x-1/2 absolute font-['Inter:Medium',sans-serif] font-medium leading-[21px] left-[157.72px] not-italic text-[#737373] text-[14px] text-center top-0 tracking-[-0.1504px]">March 2021 – June 2023</p>
     </div>
   );
 }

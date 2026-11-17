@@ -139,7 +139,7 @@ export default function Container() {
       <ExperienceCard 
         company="CoverSure"
         position="Lead Product Designer"
-        period="JAN 2025 — Present"
+        period="JAN 2025 – Present"
         description="Redefining how users understand and act on insurance by transforming fragmented policies into a clear, decision-ready experience that drives engagement and trust."
         logo={<CoverSureLogo />}
         bgColor="rgba(29,85,254,0.16)"
@@ -147,7 +147,7 @@ export default function Container() {
       <ExperienceCard 
         company="Fynd"
         position="Product Design Manager"
-        period="FEB 2024 — OCT 2024"
+        period="FEB 2024 – OCT 2024"
         description="Designed AI-powered analytical platforms that turned complex data into intuitive, insight-driven workflows supporting faster, confident decisions."
         logo={<FyndLogo />}
         bgColor="rgba(26,26,26,0.1)"
@@ -155,14 +155,14 @@ export default function Container() {
       <ExperienceCard 
         company="Nykaa"
         position="Lead Product Designer"
-        period="MAR 2021 — JUN 2023"
+        period="MAR 2021 – JUN 2023"
         description="Shaped large-scale B2B commerce systems, designing high-frequency operational journeys that improved retailer efficiency and business performance."
         logo={<NykaaLogo />}
       />
       <ExperienceCard 
         company="PharmEasy"
         position="UX Designer 2"
-        period="APR 2019 — FEB 2021"
+        period="APR 2019 – FEB 2021"
         description="Reimagined prescription and diagnostics journeys to reduce friction, strengthen user confidence, and improve task completion in high-stakes moments."
         logo={
           <div className="h-[60px] relative shrink-0 w-[62px] scale-[0.7]">
@@ -176,7 +176,7 @@ export default function Container() {
       <ExperienceCard 
         company="IDfy"
         position="UI/UX Designer"
-        period="MAR 2018 — MAR 2019"
+        period="MAR 2018 – MAR 2019"
         description="Designed compliant identity verification experiences that balanced security, usability, and seamless fintech integrations at scale."
         logo={
           <div className="h-[56px] relative shrink-0 w-[58px] scale-[0.7]">
@@ -190,7 +190,7 @@ export default function Container() {
       <ExperienceCard 
         company="Taglr"
         position="UI/UX Designer"
-        period="JUN 2017 — MAR 2018"
+        period="JUN 2017 – MAR 2018"
         description="Built unified commerce experiences bridging online discovery and offline inventory, helping retailers operate more efficiently."
         logo={
           <div className="h-[56px] relative shrink-0 w-[59px] scale-[0.7]">
@@ -204,7 +204,7 @@ export default function Container() {
       <ExperienceCard 
         company="Zycus"
         position="Asst Design Lead"
-        period="JUL 2015 — MAY 2017"
+        period="JUL 2015 – MAY 2017"
         description="Improved enterprise procurement experiences by simplifying complex buyer-supplier workflows across multi-product SaaS systems."
         logo={<ZycusLogo />}
         bgColor="rgba(16,64,138,0.15)"
@@ -212,7 +212,7 @@ export default function Container() {
       <ExperienceCard 
         company="Oracle"
         position="UX Designer (Contract)"
-        period="JUL 2013 — JUL 2015"
+        period="JUL 2013 – JUL 2015"
         description="Transformed banker-facing loan origination workflows into structured, efficient systems improving accuracy and operational speed."
         logo={
           <div className="h-[36px] relative shrink-0 w-[58px] scale-[0.7]">
@@ -224,6 +224,68 @@ export default function Container() {
         bgColor="rgba(199,70,52,0.15)"
         isLast
       />
+    </div>
+  );
+}
+// Logo badges reused by the redesigned experience section
+const LOGO_BADGES: Record<string, { logo: React.ReactNode; bg: string }> = {
+  CoverSure: { logo: <CoverSureLogo />, bg: 'rgba(29,85,254,0.16)' },
+  Fynd: { logo: <FyndLogo />, bg: 'rgba(26,26,26,0.1)' },
+  Nykaa: { logo: <NykaaLogo />, bg: 'transparent' },
+  PharmEasy: {
+    logo: (
+      <div className="h-[60px] relative shrink-0 w-[62px] scale-[0.7]">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <img alt="" className="absolute h-full left-0 max-w-none top-0 w-[485.57%]" src={imgPharmEasyLogo1} />
+        </div>
+      </div>
+    ),
+    bg: 'rgba(14,143,109,0.17)',
+  },
+  IDfy: {
+    logo: (
+      <div className="h-[56px] relative shrink-0 w-[58px] scale-[0.7]">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <img alt="" className="absolute h-full left-0 max-w-none top-0 w-[161.92%]" src={imgSection11080X6531} />
+        </div>
+      </div>
+    ),
+    bg: 'rgba(206,16,16,0.15)',
+  },
+  Taglr: {
+    logo: (
+      <div className="h-[56px] relative shrink-0 w-[59px] scale-[0.7]">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <img alt="" className="absolute h-[129.21%] left-[-82.7%] max-w-none top-[-15.17%] w-[270.27%]" src={imgImage3} />
+        </div>
+      </div>
+    ),
+    bg: 'rgba(253,92,99,0.12)',
+  },
+  Zycus: { logo: <ZycusLogo />, bg: 'rgba(16,64,138,0.15)' },
+  Oracle: {
+    logo: (
+      <div className="h-[36px] relative shrink-0 w-[58px] scale-[0.7]">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <img alt="" className="absolute h-full left-0 max-w-none top-0 w-[479.4%]" src={imgOracleLogoSvg1} />
+        </div>
+      </div>
+    ),
+    bg: 'rgba(199,70,52,0.15)',
+  },
+};
+
+export function CompanyLogo({ company, size = 64 }: { company: string; size?: number }) {
+  const badge = LOGO_BADGES[company];
+  if (!badge) return null;
+  return (
+    <div
+      className="relative shrink-0 rounded-[16px] flex items-center justify-center overflow-hidden"
+      style={{ width: size, height: size, background: badge.bg }}
+    >
+      <div style={{ transform: `scale(${size / 80})` }} className="flex items-center justify-center">
+        {badge.logo}
+      </div>
     </div>
   );
 }

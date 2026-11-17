@@ -1,0 +1,90 @@
+/* Case study pages: re-skin to match the redesigned site (cream blocks on black, Inter Tight headings, mono labels) */
+.cs-theme {
+  --text-primary: #1C0F1F;
+  --text-secondary: #6A5E6C;
+  --text-tertiary: #8A7F8B;
+  background: #0B0B0C !important;
+}
+.cs-theme .max-w-5xl { max-width: 72rem !important; }
+
+/* Main sheet */
+.cs-theme .bg-white.rounded-xl,
+.cs-theme .bg-white.rounded-2xl {
+  background: #F3F0EA !important;
+  border-radius: 36px !important;
+}
+
+/* Typography */
+.cs-theme h1 {
+  font-family: 'Inter Tight', 'Inter Display', 'Inter', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.05em !important;
+  line-height: 0.98 !important;
+  font-size: clamp(2.4rem, 5vw, 4.2rem) !important;
+}
+.cs-theme h2 {
+  font-family: 'Inter Tight', 'Inter Display', 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.045em !important;
+  line-height: 1 !important;
+  font-size: clamp(1.9rem, 3.4vw, 2.8rem) !important;
+}
+.cs-theme h3,
+.cs-theme h4 {
+  font-family: 'Inter Tight', 'Inter Display', 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.025em !important;
+}
+
+/* Cards: soft white blocks instead of tinted gradients */
+.cs-theme [class*="bg-neutral-50"],
+.cs-theme [class*="bg-neutral-100"],
+.cs-theme [class*="bg-gradient-to"],
+.cs-theme [class*="from-green-50"],
+.cs-theme [class*="from-blue-50"],
+.cs-theme [class*="from-orange-50"],
+.cs-theme [class*="from-purple-50"],
+.cs-theme [class*="from-slate-50"] {
+  background-color: #FFFDF9 !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: 0 1px 0 rgba(28,15,31,0.04), 0 12px 32px -18px rgba(28,15,31,0.18);
+}
+.cs-theme [class*="rounded-lg"][class*="bg-"],
+.cs-theme [class*="rounded-xl"][class*="bg-neutral"],
+.cs-theme [class*="rounded-xl"][class*="bg-gradient"],
+.cs-theme [class*="rounded-2xl"][class*="bg-"]:not(.bg-white) {
+  border-radius: 22px !important;
+}
+
+/* Tags and role chips: outlined mono pills */
+.cs-theme [class*="bg-violet-50"],
+.cs-theme [class*="bg-violet-100"],
+.cs-theme [class*="bg-purple-50"],
+.cs-theme [class*="bg-purple-100"] {
+  background: transparent !important;
+  border: 1px solid rgba(28,15,31,0.22) !important;
+  color: #1C0F1F !important;
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  border-radius: 999px !important;
+}
+.cs-theme [class*="text-violet-"],
+.cs-theme [class*="text-purple-"] { color: #1C0F1F !important; }
+
+/* Hairlines */
+.cs-theme .border-neutral-200,
+.cs-theme .border-neutral-100,
+.cs-theme .border-neutral-300 { border-color: rgba(28,15,31,0.1) !important; }
+
+/* Close button */
+.cs-theme .fixed.rounded-full {
+  background: #1C0F1F !important;
+  border-color: #1C0F1F !important;
+}
+.cs-theme .fixed.rounded-full svg { color: #F3F0EA !important; }
+
+/* Body copy */
+.cs-theme p, .cs-theme li { color: var(--text-secondary); }
