@@ -54,7 +54,7 @@ function OutcomeTicker() {
       <span style={{ fontFamily: MONO, fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED }}>
         What changed
       </span>
-      <div className="relative overflow-hidden" style={{ height: '2.6rem', minWidth: 'min(90vw, 40rem)', perspective: 600 }}>
+      <div className="relative overflow-hidden w-[88vw] h-[4.75rem] sm:w-auto sm:h-[2.6rem] sm:min-w-[min(90vw,40rem)]" style={{ perspective: 600 }}>
         <AnimatePresence mode="wait">
           <motion.button
             key={i}
@@ -63,7 +63,7 @@ function OutcomeTicker() {
             animate={{ y: '0%', opacity: 1, rotateX: 0 }}
             exit={{ y: '-100%', opacity: 0, rotateX: 70 }}
             transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="group absolute inset-0 flex items-center justify-center gap-3 whitespace-nowrap cursor-pointer"
+            className="group absolute inset-0 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 sm:whitespace-nowrap cursor-pointer text-center"
             aria-label={`${o.stat} ${o.text}, open`}
           >
             <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 'clamp(1.35rem, 2.2vw, 1.85rem)', letterSpacing: '-0.04em', color: '#6B3FA0' }}>
@@ -71,11 +71,11 @@ function OutcomeTicker() {
             </span>
             <span
               className="underline decoration-transparent underline-offset-4 transition-colors group-hover:decoration-[#6B3FA0]"
-              style={{ fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', color: INK }}
+              style={{ fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', color: INK, lineHeight: 1.3 }}
             >
               {o.text}
             </span>
-            <ArrowUpRight size={16} strokeWidth={1.75} className="opacity-40 transition-all group-hover:opacity-100 group-hover:rotate-45" style={{ color: INK }} />
+            <ArrowUpRight size={16} strokeWidth={1.75} className="hidden sm:block opacity-40 transition-all group-hover:opacity-100 group-hover:rotate-45" style={{ color: INK }} />
           </motion.button>
         </AnimatePresence>
       </div>
@@ -288,7 +288,7 @@ export function Hero() {
       style={{ background: CREAM, color: INK, minHeight: 'calc(100vh - 16px)' }}
     >
       <NameWatermark variant={variant} />
-      <div className="relative z-10 flex-1 flex items-center justify-center px-6 pt-32 pb-16">
+      <div className="relative z-10 flex-1 flex items-center justify-center px-5 sm:px-6 pt-24 sm:pt-32 pb-12 sm:pb-16">
         <div className="w-full max-w-6xl mx-auto flex flex-col items-center text-center">
 
           {/* Eyebrow */}
@@ -296,8 +296,8 @@ export function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="rounded-full border px-4 py-1.5 mb-8"
-            style={{ borderColor: INK, fontSize: '0.72rem', fontFamily: MONO, letterSpacing: '0.08em', textTransform: 'uppercase' }}
+            className="rounded-full border px-3 sm:px-4 py-1.5 mb-6 sm:mb-8 whitespace-nowrap text-[0.6rem] sm:text-[0.72rem] tracking-[0.04em] sm:tracking-[0.08em]"
+            style={{ borderColor: INK, fontFamily: MONO, textTransform: 'uppercase' }}
           >
             Saloni Mehta · Behaviour-led product design
           </motion.span>
@@ -307,11 +307,10 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-2"
+            className="mt-2 text-[clamp(2.3rem,11.6vw,3.4rem)] sm:text-[clamp(3rem,7.2vw,6.75rem)]"
             style={{
               fontFamily: DISPLAY,
               fontWeight: 700,
-              fontSize: 'clamp(2.75rem, 7.2vw, 6.75rem)',
               lineHeight: 0.95,
               letterSpacing: '-0.045em',
             }}
@@ -340,7 +339,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-3"
+            className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-3 sm:gap-3"
           >
             {[
               { label: 'See the work', icon: ArrowDown, target: 'work', dark: true },
@@ -349,17 +348,17 @@ export function Hero() {
               <button
                 key={label}
                 onClick={() => (target === 'contact-modal' ? openContact('hero') : scrollTo(target))}
-                className="group flex items-center cursor-pointer"
-                style={{ fontFamily: MONO, fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}
+                className="group flex items-center cursor-pointer text-[0.68rem] sm:text-[0.8rem] tracking-[0.05em] sm:tracking-[0.08em]"
+                style={{ fontFamily: MONO, textTransform: 'uppercase' }}
               >
                 <span
-                  className="rounded-full px-6 py-3.5 border transition-colors"
+                  className="rounded-full px-3.5 sm:px-6 py-3 sm:py-3.5 border transition-colors whitespace-nowrap"
                   style={{ background: dark ? INK : 'transparent', color: dark ? CREAM : INK, borderColor: INK }}
                 >
                   {label}
                 </span>
                 <span
-                  className="-ml-px flex items-center justify-center rounded-full border w-[46px] h-[46px] transition-transform group-hover:rotate-[-45deg]"
+                  className="-ml-px flex items-center justify-center rounded-full border w-[38px] h-[38px] sm:w-[46px] sm:h-[46px] transition-transform group-hover:rotate-[-45deg]"
                   style={{ background: dark ? INK : 'transparent', color: dark ? CREAM : INK, borderColor: INK }}
                 >
                   <Icon size={16} strokeWidth={1.75} />
@@ -370,7 +369,7 @@ export function Hero() {
               href="/Saloni_Mehta_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-3 underline underline-offset-4"
+              className="basis-full sm:basis-auto text-center px-3 py-2 sm:py-3 underline underline-offset-4"
               style={{ color: INK, fontFamily: MONO, fontSize: '0.8rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}
             >
               Resume
